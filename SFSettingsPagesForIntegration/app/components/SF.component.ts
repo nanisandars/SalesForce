@@ -394,7 +394,7 @@ var that=this;
                     //single map is added to existing mapping
                     this.Qmapbackup.push(singlemap);
                     this.SearchMap()
-                    this. Logthemaping();
+                    this.Logthemaping();
                 }
                 this.InsertEditFlag = false;
                 this.InsertEditid = "";

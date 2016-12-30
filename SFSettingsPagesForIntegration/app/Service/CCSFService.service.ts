@@ -1,23 +1,23 @@
 import { Injectable } from 'angular2/core';
 import { Http, Response, Jsonp,URLSearchParams } from 'angular2/http';
 import { Headers, RequestOptions } from 'angular2/http';
-
+import { ConfigService } from './Config.service';
 @Injectable()
 export class CCSFService {
-	constructor(private jsonp: Jsonp, private http: Http) { }
-	HttpURL: string ="http://42.104.96.38:1557";//"http://localhost:54969";// "http://42.104.96.38:1557";//"http://localhost:54969";//"https://42.104.96.38:4501";//"https://42.104.96.38:4501";//
+	constructor(private jsonp: Jsonp, private http: Http, private config:ConfigService) { }
+
 	APIendpoint: string = '/api/Connect2SF';//'/api/CCTOSF';//
 	IntegrationKey: string = 'integrations.salesforce';
 	//Connecting to SF using all credentials
 	Connect2SF(ClientID: string, ConsumerSecret: string, UserName: string, Password: string) {
 
-		let Weburl = this.HttpURL + this.APIendpoint + '/GetTokenbyauthentication?ClientId=' + ClientID + '&ConsumerSecret=' + ConsumerSecret + '&UserName=' + UserName + '&Password=' + Password + '';
+		let Weburl = this.config.HttpURL + this.APIendpoint + '/GetTokenbyauthentication?ClientId=' + ClientID + '&ConsumerSecret=' + ConsumerSecret + '&UserName=' + UserName + '&Password=' + Password + '';
 		return this.FetchData(Weburl);
 	}
 	//Connecting to SF using Refresh token
 	ConnectNRetrieveQidsNfields(Rtoken: string) {
 
-		let Weburl = this.HttpURL + this.APIendpoint + '/ConnectNRetrieveQidsNfields?Rtoken=' + Rtoken + '';
+		let Weburl =this.config.HttpURL + this.APIendpoint + '/ConnectNRetrieveQidsNfields?Rtoken=' + Rtoken + '';
 		return this.FetchData(Weburl);
 	}
 
@@ -26,7 +26,7 @@ export class CCSFService {
 	GetInsertMapping(CCtoken: string, userName: string) {
 
 		let Weburl = '';
-		Weburl = this.HttpURL + this.APIendpoint + '/GetInsertMapping?CCAccesstoken=' + CCtoken + '&username=' + userName;
+		Weburl =this.config.HttpURL + this.APIendpoint + '/GetInsertMapping?CCAccesstoken=' + CCtoken + '&username=' + userName;
 		return this.FetchData(Weburl);
 	}
 
@@ -34,21 +34,21 @@ export class CCSFService {
 	AddInsertMapping(Qid: string, Field: string, CCtoken: string, ccUsername: string) {
 
 		let Weburl = '';
-		Weburl = this.HttpURL + this.APIendpoint + '/AddInsertMapping?tagName=' + Qid + '&Field=' + Field + '&CCAccesstoken=' + CCtoken + '&noneditable=' + (1 == 0) + '&ccUserName=' + ccUsername;
+		Weburl =this.config.HttpURL + this.APIendpoint + '/AddInsertMapping?tagName=' + Qid + '&Field=' + Field + '&CCAccesstoken=' + CCtoken + '&noneditable=' + (1 == 0) + '&ccUserName=' + ccUsername;
 		return this.FetchData(Weburl);
 	}
 	//Update CC-SF Mappings
 	EditInsertMapping(Qid: string, Field: string, id: Number, CCtoken: string, ccUsername: string) {
 
 		let Weburl = '';
-		Weburl = this.HttpURL + this.APIendpoint + '/EditInsertMapping?tagname=' + Qid + '&Field=' + Field + '&_id=' + id + '&CCAccesstoken=' + CCtoken + '&noneditable=' + (1 == 0) + '&ccUserName=' + ccUsername;
+		Weburl =this.config.HttpURL + this.APIendpoint + '/EditInsertMapping?tagname=' + Qid + '&Field=' + Field + '&_id=' + id + '&CCAccesstoken=' + CCtoken + '&noneditable=' + (1 == 0) + '&ccUserName=' + ccUsername;
 		return this.FetchData(Weburl);
 	}
 	//Diable or enable CC-SF Mappings
 	EnableDisableInsertMapping(id: string, CCtoken: string, ccUserName: string) {
 
 		let Weburl = '';
-		Weburl = this.HttpURL + this.APIendpoint + '/EnableDisableInsertMapping?_id=' + id + '&CCAccesstoken=' + CCtoken + '&ccUserName=' + ccUserName;
+		Weburl =this.config.HttpURL + this.APIendpoint + '/EnableDisableInsertMapping?_id=' + id + '&CCAccesstoken=' + CCtoken + '&ccUserName=' + ccUserName;
 		return this.FetchData(Weburl);
 	}
 
@@ -56,7 +56,7 @@ export class CCSFService {
 	connect2SFAccount(ClientId: string, ConsumerSecret: string, ccUserName: string, ccApiKey: string) {
 
 		let Weburl = '';
-		Weburl = this.HttpURL + '/api/CCTOSF' + '/connectToSFAccount?sfClientId=' + ClientId + '&sfSecret=' + ConsumerSecret + '&ccUserName=' + ccUserName + '&ccApiKey=' + ccApiKey + '&sfRefreshToken=' + '';
+		Weburl =this.config.HttpURL + '/api/CCTOSF' + '/connectToSFAccount?sfClientId=' + ClientId + '&sfSecret=' + ConsumerSecret + '&ccUserName=' + ccUserName + '&ccApiKey=' + ccApiKey + '&sfRefreshToken=' + '';
 
 
 		return this.FetchData(Weburl);
@@ -67,14 +67,14 @@ export class CCSFService {
 	//Verifying if Refresh Token
 	IsRtokenexist(userName: string) {
 		let Weburl = '';
-		Weburl = this.HttpURL + '/api/CCTOSF' + '/IsRtokenexist?userName=' + userName;
+		Weburl =this.config.HttpURL + '/api/CCTOSF' + '/IsRtokenexist?userName=' + userName;
 		return this.FetchData(Weburl);
 	}
 
 	//Retreiving Tags based on the location of the selected tag	
 	GetTagonEdit(tagName: string, CCtoken: string) {
 
-		let Weburl = this.HttpURL + this.APIendpoint + '/GetTagonEdit?tag=' + tagName + '&accessToken=' + CCtoken;
+		let Weburl =this.config.HttpURL + this.APIendpoint + '/GetTagonEdit?tag=' + tagName + '&accessToken=' + CCtoken;
 
 		return this.FetchData(Weburl);
 	}

@@ -4,7 +4,7 @@ import { Headers, RequestOptions } from 'angular2/http';
 @Injectable()
 export class ConfigService {
     constructor(private jsonp: Jsonp, private http: Http) { }
-    HttpURL: string = "http://localhost:54969/";//" "http://42.104.96.38:1557/"; 
+    HttpURL: string = "http://xx.xxx.xxx.xx:<portnumber>/";
 
 // Calls the API  given in parameters
 FetchData(Weburl: string):Promise < any > {
@@ -18,7 +18,7 @@ FetchData(Weburl: string):Promise < any > {
         .get(Weburl, { search: params })
         .map(request => <any>request.json()).toPromise();
 }
-	CCAPIGet(Weburl: string, AccessToken: string):Promise < any > {
+	CCAPIGet(Weburl: string, AccessToken: string):Promise <any > {
 		console.log(Weburl);
 		var storeToken: any;
 		var logError: any;
@@ -30,4 +30,14 @@ FetchData(Weburl: string):Promise < any > {
 			.get(Weburl, { headers: headers })
 			.map(request => <any>request.json()).toPromise();
 	}
+
+       CCAPIPost(body: any, Weburl: string, AccessToken: string): Promise<any> {
+           console.log(Weburl);  console.log(body);
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append("Authorization", 'Bearer ' + AccessToken);
+        return this.http.post(Weburl,JSON.stringify(body), { headers: headers })
+            .map(response => response.json()).toPromise();
+
+    }
 }

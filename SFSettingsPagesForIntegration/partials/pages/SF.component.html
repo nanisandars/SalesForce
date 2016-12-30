@@ -126,10 +126,10 @@
                                       <td class="md-text-cell-SF"> <a title="{{map.field}}">{{map.field.slice(0,25)}}<span *ngIf="map.field.length>25">...</span></a></td>
                                       <td class="md-text-cell-SF">
                                         <span>           
-                                        <span *ngIf="map.disabled!='True'"  style="color:blue; cursor:pointer;"  ><u *ngIf="map._id!=Edittag"   (click)="ShowinPopup(map,'Edit')"  (click)="CCModal.show()"> <a title="Click to Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a></u>
+                                        <span *ngIf="map.disabled!='True'"  style="color:blue; cursor:pointer;"  ><u *ngIf="map._id!=Edittag"   (click)="ShowinPopup(map,'Edit')"  > <a title="Click to Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a></u>
                                         <u *ngIf="map._id==Edittag"  title="Click to cancel" (click)="CancelEdit()"><a title="Click to Cancel"><i class="fa fa-times" aria-hidden="true"></i></a></u> </span>
-                                        <span *ngIf="map.disabled=='True'" style="color:Green;  cursor:pointer;" (click)="ShowinPopup(map,'Enable')" (click)="CCModal.show()"> <a  title="Click to Enable"><i class="fa fa-check" aria-hidden="true"></i></a></span>
-                                        <span *ngIf="map.disabled!='True'" style="color:Red;  cursor:pointer;" (click)="ShowinPopup(map,'Disable')" (click)="CCModal.show()">  <a  title="Click to Disable"> <i class="fa fa-ban" aria-hidden="true"></i> </a> </span>
+                                        <span *ngIf="map.disabled=='True'" style="color:Green;  cursor:pointer;" (click)="ShowinPopup(map,'Enable')" > <a  title="Click to Enable"><i class="fa fa-check" aria-hidden="true"></i></a></span>
+                                        <span *ngIf="map.disabled!='True'" style="color:Red;  cursor:pointer;" (click)="ShowinPopup(map,'Disable')" >  <a  title="Click to Disable"> <i class="fa fa-ban" aria-hidden="true"></i> </a> </span>
                                         </span>
                                       </td>
                                     </tr>

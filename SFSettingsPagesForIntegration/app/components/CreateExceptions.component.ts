@@ -102,7 +102,7 @@ export class CreateExceptions implements OnInit {
         var myJsonString = this.Getselectedids(this.ExceptionRecordsList)
         var that = this;
         //calling api to archive  
-        this.exception.ManualRetriggerFDTicketInserts(myJsonString, this.userName, this.FilterDays).then(function (data) {
+        this.exception.ManualRetriggerSFCCNotesInserts(myJsonString, this.userName, this.FilterDays).then(function (data) {
             that.GetExceptions();
         }).catch(function (data) {
             that.GetExceptions();
