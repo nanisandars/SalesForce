@@ -21,7 +21,7 @@ export class UpdateExceptions implements OnInit {
     IntegrationType: string = 'salesforce';
     AllResponses: any;
     ExceptionRecordsList: any;
-    ExceptionRecordsListBackUp: any = [];
+    ExceptionRecordsListBackUp: any =undefined;
     TokenArchivebutton: boolean = false;
     FilterDays: number;
     SearchRecord: string = "";
@@ -98,7 +98,7 @@ export class UpdateExceptions implements OnInit {
         var myJsonString = this.Getselectedids(this.ExceptionRecordsList)
         var that = this;
         //calling api to archive  
-        this.exception.ManualRetriggerNotesInserts(myJsonString, this.userName, this.FilterDays).then(function (data) {
+        this.exception.ManualRetriggerSFCCNotesInserts(myJsonString, this.userName, this.FilterDays).then(function (data) {
             that.GetExceptions();
         }).catch(function (data) {
             that.GetExceptions();
@@ -191,9 +191,11 @@ export class UpdateExceptions implements OnInit {
     /******  Model popup code */
     ShowModal(Record) {
 
+        var fRecord = JSON.parse(Record.failedRecord);
+
         this.Modalpopup = true;
         this.ExceptionDescription = Record.exceptionDescription;
-        var singleresponse = this.AllResponses.filter(item => item.id == Record.answerId);
+        var singleresponse = this.AllResponses.filter(item => item.id == fRecord.CCTicket__c);
         this.SurveyResponse = singleresponse[0].responses;
 
     }

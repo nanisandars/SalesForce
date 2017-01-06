@@ -17,8 +17,8 @@ import {HTTP_PROVIDERS, Http, Response, Headers, Jsonp, JSONP_PROVIDERS, Connect
 		outputs: ['PostIntegration']
    
 })
-export class SFComponent
-{	public PostIntegration = new EventEmitter();
+export class SFComponent implements OnInit {
+	public PostIntegration = new EventEmitter();
     public userName: string;
 	public CCMappings: any;
     salesforcekey="integrations.salesforce"
@@ -80,30 +80,17 @@ export class SFComponent
     constructor(
         private ccsf: CCSFService,
         private route: Router, cdr: ChangeDetectorRef, private params: RouteParams)
-    {
+   {
         this.cdr = cdr;
-        this.Stoploader();
-        this.SessionUserName = params.get("Username");
-        this.CCAccesToken = params.get("AccesToken");
-        if (this.SessionUserName != "" && this.CCAccesToken != "")
-        {
-            this.RefreshTokenDetails = this.ccsf.IsRtokenexist(this.SessionUserName);
+    }
+     ngOnInit()     { this.SessionUserName =this.userName
+         this.RefreshTokenDetails = this.ccsf.IsRtokenexist(this.SessionUserName);
             this.CredentialsCC = false;
-            /** Retreiving the  mappings from  CC */
-            this.ccsf.GetIntegrationData(this.CCAccesToken).subscribe(items => this.SFintegrationdata_copy = items);;
-            this.ccsf.GetAPIKey(this.CCAccesToken).subscribe(items => this.APIKey = items);
-            var that = this;
-            setTimeout(function()
-            {
-                that.SFintegrationdata = JSON.parse(that.SFintegrationdata_copy);
-                if (that.SFintegrationdata == null)
-                {
-                    that.Qmap = [];
-                    return;
-                }
-                that.Qmap = that.SFintegrationdata.Mappings
-            }, 5000)
-        }
+            this.SFintegrationdata_copy=this.CCMappings;
+          this.SFintegrationdata = JSON.parse(this.SFintegrationdata_copy);
+          if(this.SFintegrationdata!=null)
+           this.Qmap = this.SFintegrationdata.Mappings
+           
     }
     //Navigation to exception page
     Navigatetoexceptions()
@@ -151,6 +138,7 @@ export class SFComponent
                 that.showloading = false;
                 //if any tags are removed in CC Then that  tags are removed from mapping list that are  displayed in UI
                 var Tempqmap = [];
+	 	if(that.Qmap!=null){
               
 
                 for (var Qmapcounter = 0; Qmapcounter < that.Qmap.length; Qmapcounter++)
@@ -175,6 +163,7 @@ export class SFComponent
                     }
                     Tempqmap.push(that.Qmap[Qmapcounter]);
                 }
+}
                 that.Qmap=Tempqmap;
                that.Qmapbackup=that.Qmap;
               
@@ -525,17 +514,20 @@ var that=this;
 
 
         
- var that=this;
- that.Questions=[];
+	var that=this;
+	that.Questions=[];
+	var Qlist = [];
+        var sorttags = [];
         this.Questionslist.filter(function(item){
-            if(item.questionTags.length>0)
+            if(item.questionTags.length > 0)
             {
-                    if(finaltagslist.indexOf(item.questionTags[0])>=0)
+                    if(finaltagslist.indexOf(item.questionTags[0]) >= 0)
                     {
                       
                          var obj = { "tag": item.questionTags[0], "qid": item.id  };
                     
-                    that.Questions.push(obj);
+			 sorttags.push(item.questionTags[0]);
+                    	 Qlist.push(obj);
                     }
             }
             
@@ -544,11 +536,21 @@ var that=this;
 
 
 
+        sorttags.sort(function (a, b) {
+            return (a > b) ? -1 : (a < b) ? 1 : 0;
+        });
 
-		
-        
-		
-	}
+        sorttags.reverse();
+
+        for (var single of sorttags) {
+            var obj = Qlist.filter(item => item.tag == single);
+            if (obj[0] != null)
+                this.Questions.push(obj[0])
+        }
+
+
+
+    }
     //Disable  or enable  CC to SF Tag- field mapping
     DisableInsertMapping(id: string)
         {

@@ -40,4 +40,15 @@ FetchData(Weburl: string):Promise < any > {
             .map(response => response.json()).toPromise();
 
     }
+//Authenticating CC with the given username and password
+    CCauthenticate(username: string, password: string): Promise<any> {
+        var storeToken: any;
+        var logError: any;
+        var body = '';//`username=${username}&password=${password}`;
+        body = 'grant_type=password&username=' + username + '&password=' + password + ''
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this.http.post('https://manage.getcloudcherry.com/api/LoginToken', body, { headers: headers })
+            .map(response => response.json()).toPromise();
+    }
 }
