@@ -191,11 +191,22 @@ export class CreateExceptions implements OnInit {
     /******  Model popup code Start*/
     ShowModal(Record) {
 
+       if(Record.answerId!=undefined){
+         
         this.Modalpopup = true;
         this.ExceptionDescription = Record.exceptionDescription;
         var singleresponse = this.AllResponses.filter(item => item.id == Record.answerId);
         this.SurveyResponse = singleresponse[0].responses;
+}
+else
+{
+      var fRecord = JSON.parse(Record.failedRecord);
 
+        this.Modalpopup = true;
+        this.ExceptionDescription = Record.exceptionDescription;
+        var singleresponse = this.AllResponses.filter(item => item.id == fRecord.CCTicket__c);
+         this.SurveyResponse = singleresponse[0].responses;
+}
     }
 
     CloseModal() {
