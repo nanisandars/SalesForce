@@ -27,8 +27,8 @@
   <thead>
     <tr>
       <th (click)="SortRecords('exceptionRaisedOn',ExceptionRecordsList)" style="cursor:pointer">Date Time</th>
-      <th (click)="SortRecords('answerId',ExceptionRecordsList)" style="cursor:pointer">CC Response Id</th>
-      <th (click)="SortRecords('exceptionRaisedAt',ExceptionRecordsList)" style="cursor:pointer">Raised at</th>
+      <th (click)="SortRecords('answerId',ExceptionRecordsList)" style="cursor:pointer">CC Answer Id</th>
+    
       <th *ngIf="showarchive">Archive</th>
         <th> Retry</th>
       <th>View Details</th>
@@ -38,8 +38,8 @@
     <tr>
       <td>{{GetDate(Record.exceptionRaisedOn)}}</td>
       <td>{{GetAnswerID(Record)}}</td>
-      <td>{{Record.exceptionRaisedAt}}</td>
-      <td *ngIf="showarchive">
+   
+      <td >
         <div class="checkbox">
           <label><input type="checkbox" id="{{Record._id}}" [(ngModel)]="Record.archive" value="" ></label>
         </div>
@@ -70,13 +70,13 @@
         <button type="button" class="close" data-dismiss="modal" (click)="CloseModal()">&times;</button>
         <h4 class="modal-title">{{modalTitle}}</h4>
       </div>
-      <div class="modal-body">       
+      <div class="modal-body" style="overflow-y: auto;height:500px; ">       
         <h4>Exception Details </h4>
         <table class="table table-bordered" style="padding-right:10px">
           <tbody>
             <tr>
               
-              <td><div style="width:80%;overflow: auto"> {{ExceptionDescription}}</div></td>
+              <td><div style="width:900px;overflow-x: auto"> {{ExceptionDescription}}</div></td>
             </tr>
           </tbody>
         </table>

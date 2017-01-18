@@ -349,7 +349,7 @@ var that=this;
                 this.InsertError = "Please select question tag";
             else if (Field == "")
                 this.InsertError = "Please select salesforce field";
-            else if (!this.IsTagFieldMapped(Tagid, Field, this.InsertEditid))
+            else if (!this.IsTagFieldMapped(qid, Field, this.InsertEditid))
             {
                 return;
             }
@@ -578,7 +578,7 @@ var that=this;
             this.InsertError = "";
             this.Message = '';
             //vallidating the  mapping to enable
-            if (!this.IsThisMappingExist(QuestionTag, SFField))
+            if (!this.IsThisMappingExist(this.EnableDisablemap.qid, SFField))
             {
                 this.InsertError = "Question tag/Salesforce field already used, cannot be enabled";
                 return;
@@ -588,14 +588,14 @@ var that=this;
             this.CancelEdit();
         }
         //validdating the mapping  that given tag and  field already exist or not.
-    IsTagFieldMapped(questionTag: string, field: String, mapId: string)
+    IsTagFieldMapped(questionid: string, field: String, mapId: string)
         {
             var QuestionTagcount = 0;
             var SFFieldCount = 0;
             this.InsertError = "";
             for (var count = 0; count < this.Qmapbackup.length; count++)
             {
-                if ((this.Qmapbackup[count].tag == questionTag) && (this.Qmapbackup[count]._id != mapId) && (this.Qmapbackup[count].disabled != 'True'))
+                if ((this.Qmapbackup[count].qid == questionid) && (this.Qmapbackup[count]._id != mapId) && (this.Qmapbackup[count].disabled != 'True'))
                 {
                     this.InsertError = "Question tag already used";
                     return false;
@@ -609,7 +609,7 @@ var that=this;
             return true;
         }
         //vallidating the  mapping to enable or disable
-    IsThisMappingExist(QuestionTag: string, field: String)
+    IsThisMappingExist(Questionid: string, field: String)
     {
         this.InsertError = "";
         var QuestionTagcount = 0;
@@ -617,7 +617,7 @@ var that=this;
         for (var count = 0; count < this.Qmapbackup.length; count++)
         {
             //Verifying if the questiontag already exist, and skipped from counting the tag if the tag is empty or disabled 
-            if (this.Qmapbackup[count].tag == QuestionTag && QuestionTag!="" && (this.Qmapbackup[count].disabled.toUpperCase() != 'TRUE'))
+            if (this.Qmapbackup[count].qid == Questionid  && (this.Qmapbackup[count].disabled.toUpperCase() != 'TRUE'))
             {
                 QuestionTagcount++;
             }
