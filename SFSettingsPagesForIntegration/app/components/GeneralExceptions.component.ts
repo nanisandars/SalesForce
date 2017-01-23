@@ -107,7 +107,14 @@ export class GeneralExceptions implements OnInit {
             }) + " " + Newdate.getDate() + "," + Newdate.getFullYear() + " " + Newdate.getHours() + ":" + Newdate.getMinutes() + ":" + Newdate.getSeconds()
         return fulldate;
     }
+    GetAnswerID(Record: any) {
 
+        if (Record.answerId != null && Record.answerId.trim() != "")
+            return Record.answerId;
+        var failedrecord = JSON.parse(Record.failedRecord);
+        return failedrecord.Cloudcherry_1__CCTicket__c;
+
+    }
     //sorting the  exception  records 
     SortRecords(column: string, recordList: any) {
         if (recordList.length == 0)
@@ -131,7 +138,7 @@ export class GeneralExceptions implements OnInit {
         if (recordListBackup.length == 0)
             return recordListBackup;
         var searchist = [];
-        var columnNames = Object.keys(recordListBackup[0]);      
+        var columnNames = Object.keys(recordListBackup[0]);
         for (var rowCounter = 0; rowCounter < recordListBackup.length; rowCounter++) {
             var isvalid = false;
             for (var columnCounter = 0; columnCounter < columnNames.length; columnCounter++) {
@@ -139,8 +146,8 @@ export class GeneralExceptions implements OnInit {
 
                 if (columnNames[columnCounter] == "dateTime" || columnNames[columnCounter] == "exceptionRaisedOn" || columnNames[columnCounter] == "createDateTime" || columnNames[columnCounter] == "insertedOn") {
                     comparestring = this.GetDate(comparestring) + "";
-                }              
-                if (comparestring.toUpperCase().indexOf(this.SearchRecord.toUpperCase()) >= 0) {
+                }
+                if (comparestring.toUpperCase().indexOf(this.SearchRecord.trim().toUpperCase()) >= 0) {
                     isvalid = true;
                     break;
                 }
@@ -155,10 +162,21 @@ export class GeneralExceptions implements OnInit {
     /******  Model popup code */
     ShowModal(Record) {
 
-        this.Modalpopup = true;
-        this.ExceptionDescription = Record.exceptionDescription;
-        var singleresponse = this.AllResponses.filter(item => item.id == Record.answerId);
-        this.SurveyResponse = singleresponse[0].responses;
+        if (Record.answerId != undefined) {
+
+            this.Modalpopup = true;
+            this.ExceptionDescription = Record.exceptionDescription;
+            var singleresponse = this.AllResponses.filter(item => item.id == Record.answerId);
+            this.SurveyResponse = singleresponse[0].responses;
+        }
+        else {
+            var fRecord = JSON.parse(Record.failedRecord);
+
+            this.Modalpopup = true;
+            this.ExceptionDescription = Record.exceptionDescription;
+            var singleresponse = this.AllResponses.filter(item => item.id == fRecord.Cloudcherry_1__CCTicket__c);
+            this.SurveyResponse = singleresponse[0].responses;
+        }
     }
 
     CloseModal() {

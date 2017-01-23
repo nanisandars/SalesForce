@@ -7,8 +7,8 @@ export class ConfigService {
     HttpURL: string = "http://xx.xxx.xxx.xx:<portnumber>/";
 
 // Calls the API  given in parameters
-FetchData(Weburl: string):Promise < any > {
-    Weburl=this.HttpURL + Weburl;		
+FetchData(Weburl: string): Promise <any> {
+    Weburl = this.HttpURL + Weburl;		
     let params = new URLSearchParams();
     params.set('search', '');
     params.set('action', '');
@@ -18,8 +18,9 @@ FetchData(Weburl: string):Promise < any > {
         .get(Weburl, { search: params })
         .map(request => <any>request.json()).toPromise();
 }
-	CCAPIGet(Weburl: string, AccessToken: string):Promise <any > {
-		console.log(Weburl);
+    //Retreives data from given CC url
+    CCAPIGet(Weburl: string, AccessToken: string):Promise<any> {
+
 		var storeToken: any;
 		var logError: any;
 		var headers = new Headers();
@@ -30,9 +31,9 @@ FetchData(Weburl: string):Promise < any > {
 			.get(Weburl, { headers: headers })
 			.map(request => <any>request.json()).toPromise();
 	}
+    //Posts data to given CC url
+    CCAPIPost(body: any, Weburl: string, AccessToken: string): Promise<any> {
 
-       CCAPIPost(body: any, Weburl: string, AccessToken: string): Promise<any> {
-           console.log(Weburl);  console.log(body);
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append("Authorization", 'Bearer ' + AccessToken);
@@ -40,7 +41,7 @@ FetchData(Weburl: string):Promise < any > {
             .map(response => response.json()).toPromise();
 
     }
-//Authenticating CC with the given username and password
+    //Authenticating CC with the given username and password
     CCauthenticate(username: string, password: string): Promise<any> {
         var storeToken: any;
         var logError: any;

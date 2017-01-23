@@ -83,14 +83,18 @@ export class SFComponent implements OnInit {
    {
         this.cdr = cdr;
     }
-     ngOnInit()     { this.SessionUserName =this.userName
-         this.RefreshTokenDetails = this.ccsf.IsRtokenexist(this.SessionUserName);
-            this.CredentialsCC = false;
-            this.SFintegrationdata_copy=this.CCMappings;
-          this.SFintegrationdata = JSON.parse(this.SFintegrationdata_copy);
-          if(this.SFintegrationdata!=null)
-           this.Qmap = this.SFintegrationdata.Mappings
-           
+    ngOnInit() {
+        this.SessionUserName = this.userName
+        this.RefreshTokenDetails = this.ccsf.IsRtokenexist(this.SessionUserName);
+        this.CredentialsCC = false;
+        this.SFintegrationdata_copy = this.CCMappings;
+
+        if (this.SFintegrationdata_copy != null&& this.SFintegrationdata_copy.length!=0) {
+         
+            this.SFintegrationdata = JSON.parse(this.SFintegrationdata_copy);
+            this.Qmap = this.SFintegrationdata.Mappings;
+        }
+
     }
     //Navigation to exception page
     Navigatetoexceptions()
@@ -507,7 +511,7 @@ var that=this;
         var finaltagslist = [];
 		Tagslist.forEach((singleTag: any) => {
 
-			if (finaltagslist.indexOf(singleTag) < 0) {
+			if (finaltagslist.indexOf(singleTag) < 0 && singleTag.toLowerCase() != "nps") {
 				finaltagslist.push(singleTag);
             }
 		});
@@ -519,7 +523,7 @@ var that=this;
 	var Qlist = [];
         var sorttags = [];
         this.Questionslist.filter(function(item){
-            if(item.questionTags.length > 0)
+            if(item.questionTags != null && item.questionTags.length > 0)
             {
                     if(finaltagslist.indexOf(item.questionTags[0]) >= 0)
                     {

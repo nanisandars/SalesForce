@@ -104,7 +104,7 @@ export class CCSFService {
 
 	// Calls the API  given in parameters
 	FetchData(Weburl: string) {
-		console.log(Weburl);
+
 		let params = new URLSearchParams();
 		params.set('search', '');
 		params.set('action', '');
@@ -119,8 +119,6 @@ export class CCSFService {
 	PostIntegrationData(body: any, AccessToken: string) {
 		let Weburl = "https://api.getcloudcherry.com/api/UserData/" + this.IntegrationKey;
 		//	https://api.getcloudcherry.com/api/UserData/santhosh
-		console.log(Weburl);
-		console.log(body);
 		var integrationdata: any;
 		return this.CCAPIPost(body, Weburl, AccessToken)
 
@@ -134,7 +132,7 @@ export class CCSFService {
 	}
 
 	CCAPIPost(body: any, Weburl: string, AccessToken: string) {
-		console.log(Weburl);
+
 		var headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 		headers.append("Authorization", 'Bearer ' + AccessToken);
@@ -145,7 +143,7 @@ export class CCSFService {
 
 
 	CCAPIGet(Weburl: string, AccessToken: string) {
-		console.log(Weburl);
+
 		var storeToken: any;
 		var logError: any;
 		var headers = new Headers();

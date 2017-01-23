@@ -136,10 +136,12 @@ export class UpdateExceptions implements OnInit {
             }) + " " + Newdate.getDate() + "," + Newdate.getFullYear() + " " + Newdate.getHours() + ":" + Newdate.getMinutes() + ":" + Newdate.getSeconds()
         return fulldate;
     }
-    GetAnswerID(Record:any)
-    {
-     var  failedrecord=    JSON.parse( Record.failedRecord);
-     return failedrecord.CCTicket__c;
+    GetAnswerID(Record: any) {
+
+        if (Record.answerId != null && Record.answerId.trim() != "")
+            return Record.answerId;
+        var failedrecord = JSON.parse(Record.failedRecord);
+        return failedrecord.Cloudcherry_1__CCTicket__c;
 
     }
 
@@ -170,13 +172,13 @@ export class UpdateExceptions implements OnInit {
         for (var rowCounter = 0; rowCounter < recordListBackup.length; rowCounter++) {
             var isvalid = false;
             for (var columnCounter = 0; columnCounter < columnNames.length; columnCounter++) {
-                var comparestring = recordListBackup[rowCounter][columnNames[columnCounter]]+"";
+                var comparestring = recordListBackup[rowCounter][columnNames[columnCounter]] + "";
 
                 if (columnNames[columnCounter] == "dateTime" || columnNames[columnCounter] == "exceptionRaisedOn" || columnNames[columnCounter] == "createDateTime" || columnNames[columnCounter] == "insertedOn") {
                     comparestring = this.GetDate(comparestring) + "";
                 }
 
-                if (comparestring.toUpperCase().indexOf(this.SearchRecord.toUpperCase()) >= 0) {
+                if (comparestring.toUpperCase().indexOf(this.SearchRecord.trim().toUpperCase()) >= 0) {
                     isvalid = true;
                     break;
                 }
@@ -191,12 +193,21 @@ export class UpdateExceptions implements OnInit {
     /******  Model popup code */
     ShowModal(Record) {
 
-        var fRecord = JSON.parse(Record.failedRecord);
+        if (Record.answerId != undefined) {
 
-        this.Modalpopup = true;
-        this.ExceptionDescription = Record.exceptionDescription;
-        var singleresponse = this.AllResponses.filter(item => item.id == fRecord.CCTicket__c);
-        this.SurveyResponse = singleresponse[0].responses;
+            this.Modalpopup = true;
+            this.ExceptionDescription = Record.exceptionDescription;
+            var singleresponse = this.AllResponses.filter(item => item.id == Record.answerId);
+            this.SurveyResponse = singleresponse[0].responses;
+        }
+        else {
+            var fRecord = JSON.parse(Record.failedRecord);
+
+            this.Modalpopup = true;
+            this.ExceptionDescription = Record.exceptionDescription;
+            var singleresponse = this.AllResponses.filter(item => item.id == fRecord.Cloudcherry_1__CCTicket__c);
+            this.SurveyResponse = singleresponse[0].responses;
+        }
 
     }
 
